@@ -1,0 +1,37 @@
+{
+  "name": "tracing-canvas",
+  "version": "1.0.0",
+  "description": "A reusable React/Next.js component that creates interactive p5.js sketches, tracing patterns based on mouse movements on a canvas.",
+  "main": "lib/TraceCanvas.js",
+  "keywords": [
+    "p5",
+    "react",
+    "next",
+    "trace",
+    "canvas",
+    "drawing"
+  ],
+  "scripts": {
+    "build": "babel src -d lib",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Danail Dimitrov",
+  "license": "MIT",
+  "dependencies": {
+    "react-p5": "^1.4.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.6",
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-react": "^7.24.7"
+  },
+  "files": [
+    "lib/",
+    "README.md"
+  ]
+}

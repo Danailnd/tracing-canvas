@@ -23,6 +23,7 @@ const P5Sketch = ({
   rgbInc = [0, 0, 0],
   colorRange = 0,
   mode = 0,
+  invertedFade = false,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState({
     width: 0,
@@ -92,7 +93,11 @@ const P5Sketch = ({
   const draw = (p5) => {
     if (!p5) return;
     if (isMouseInsideContainer(p5, 20)) {
-      p5.background(255, 255, 255, maxFade);
+      if (invertedFade) {
+        p5.background(0, 0, 0, maxFade);
+      } else {
+        p5.background(255, 255, 255, maxFade);
+      }
     }
   };
 

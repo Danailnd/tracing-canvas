@@ -20,6 +20,7 @@ const P5Sketch = ({
   drawingColor = "#000000", // New prop for drawing color
   customDrawFunction = null,
   customClickFunction = null,
+  customStrokeFunction = null,
   rgbInc = [0, 0, 0],
   colorRange = 0,
   mode = 0,
@@ -92,11 +93,15 @@ const P5Sketch = ({
 
   const draw = (p5) => {
     if (!p5) return;
-    if (isMouseInsideContainer(p5, 20)) {
-      if (invertedFade) {
-        p5.background(0, 0, 0, maxFade);
-      } else {
-        p5.background(255, 255, 255, maxFade);
+    if (customDrawFunction) {
+      customDrawFunction(p5, isMouseInsideContainer(p5, 20));
+    } else {
+      if (isMouseInsideContainer(p5, 20)) {
+        if (invertedFade) {
+          p5.background(0, 0, 0, maxFade);
+        } else {
+          p5.background(255, 255, 255, maxFade);
+        }
       }
     }
   };
@@ -153,8 +158,8 @@ const P5Sketch = ({
   };
 
   const handleMouseMovement = (p5, mouseX, mouseY) => {
-    if (customDrawFunction) {
-      customDrawFunction(p5, mouseX, mouseY); // Call custom drawing function if provided
+    if (customStrokeFunction) {
+      customStrokeFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY); // Call custom drawing function if provided
     } else {
       // Use mode to determine which drawing function to use
       if (mode === 0) {
@@ -199,8 +204,8 @@ const P5Sketch = ({
 
   const handleMouseClick = (p5, mouseX, mouseY) => {
     if (customClickFunction) {
-      customClickFunction(p5, mouseX, mouseY); // Call custom click function if provided
-    } else if (customDrawFunction) {
+      customClickFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY); // Call custom click function if provided
+    } else if (customStrokeFunction) {
       return;
     } else {
       // Use mode to determine which drawing function to use on mouse click
@@ -270,6 +275,7 @@ const P5Sketch = ({
         height: containerRef.current.offsetHeight,
       });
     }
+    p5.background(backgroundColor);
   };
 
   return (

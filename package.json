@@ -1,8 +1,8 @@
 {
   "name": "tracing-canvas",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A reusable React/Next.js component that creates interactive p5.js sketches, tracing patterns based on mouse movements on a canvas.",
-  "main": "lib/TraceCanvas.js",
+  "main": "lib/TracingCanvas.js",
   "keywords": [
     "p5",
     "react",

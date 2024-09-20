@@ -113,5 +113,8 @@ You need to ensure that the following peer dependencies are installed in your pr
 - `react >= 17.0.1`
 - `react-dom >= 17.0.1`
 
+### License
+This project is licensed under the MIT License -  see the [LICENSE](https://github.com/Danailnd/tracing-canvas/blob/main/LICENSE) file for details.
+
 ### Author
 Danail Dimitrov

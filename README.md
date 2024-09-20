@@ -32,12 +32,33 @@ import CanvasTrace from "tracing-canvas";
 
 const MySketch = () => {
   return (
-    <CanvasTrace
-      style={{ width: "100%", height: "500px" }}
-      options={{ rootCount: 15, branchIterations: 5, mode: 2 }}
-    />
+    <CanvasTrace/>
   );
 };
 
 export default MySketch;
+```
+
+### Props
+`style` (optional)
+- **Type:** object
+- **Default:** { width: '100%', height: '400px' }
+- **Description:** Defines the inline styles for the canvas container
+
+`options` (optional)
+- **Type:** object
+- **Description:** A set of options to customize the drawing behavior. The full list of parameters is detailed below.
+
+`customDrawFunction` (optional)
+- **Type:** `function(p5, isMouseInside)`
+- **Description:** A function to define custom drawing behavior - the behavior that affects the entire canvas on every frame (same as the p5.draw() function). It receives the p5 instance and a boolean indicating if the mouse is inside the canvas.
+
+`customClickFunction` (optional)
+- **Type:** `function(p5, isMouseInside, mouseX, mouseY)`
+- **Description:** A function to define custom clicking behavior - the behavior that occurs after the mouse pointer is clicked. It receives the p5 instance, a boolean indicating if the mouse is inside the canvas, the x position of the mouse (relative to the canvas), and the y position of the mouse (also relative).
+
+`CustomStrokeFunction` (optional)
+- **Type:** `function(p5, isMouseInside, mouseX, mouseY)`
+- **Description:** A function to define custom hovering behavior - the behavior that occurs after the mouse pointer is hovered or dragged. It receives the p5 instance, a boolean indicating if the mouse is inside the canvas, the x position of the mouse (relative to the canvas), and the y position of the mouse (also relative).
+
 

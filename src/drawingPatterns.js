@@ -23,7 +23,6 @@ export const drawRoots = (
 
     p5.line(x, y, xEnd, yEnd);
 
-    // Call the drawBranch function from this file
     drawBranch(p5, xEnd, yEnd, angle, length, branchIterations);
   }
 };
@@ -44,7 +43,6 @@ export const drawBranch = (p5, x, y, angle, length, depth) => {
 
     p5.line(x, y, xEnd, yEnd);
 
-    // Recursively call drawBranch to create the tree-like structure
     drawBranch(p5, xEnd, yEnd, branchAngle, branchLength, depth - 1);
   }
 };

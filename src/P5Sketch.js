@@ -4,7 +4,7 @@ import {
   drawRoots,
   drawRightAngleLines,
   drawSpiralBranches,
-} from "./drawingPatterns"; // Import the drawRoots function
+} from "./drawingPatterns";
 
 const P5Sketch = ({
   customFrameRate = 2,
@@ -16,8 +16,8 @@ const P5Sketch = ({
   branchIterations = 3,
   branchStrokeWeight = 0.9,
   containerRef,
-  backgroundColor = "#ffffff", // New prop for background color
-  drawingColor = "#000000", // New prop for drawing color
+  backgroundColor = "#ffffff",
+  drawingColor = "#000000",
   customDrawFunction = null,
   customClickFunction = null,
   customStrokeFunction = null,
@@ -110,32 +110,26 @@ const P5Sketch = ({
     let color = strokeColorCurrent.current;
     let direction = colorDirection.current;
 
-    // Get current R, G, B values from the current stroke color
     let r = p5.red(color);
     let g = p5.green(color);
     let b = p5.blue(color);
 
-    // Apply the increments to R, G, B values
     r = r + rgbInc[0] * direction;
     g = g + rgbInc[1] * direction;
     b = b + rgbInc[2] * direction;
 
-    // Constrain R, G, B values to stay between 0 and 255
     r = p5.constrain(r, 0, 255);
     g = p5.constrain(g, 0, 255);
     b = p5.constrain(b, 0, 255);
 
-    // Create the new color with the updated R, G, B values
     let newColor = p5.color(r, g, b);
     p5.stroke(newColor);
     strokeColorCurrent.current = newColor;
 
-    // Get the original R, G, B values from the initial drawing color
     let originalR = p5.red(drawingColorCoverted.current);
     let originalG = p5.green(drawingColorCoverted.current);
     let originalB = p5.blue(drawingColorCoverted.current);
 
-    // Check if any of the colors have reached their respective limits
     if (
       (rgbInc[0] !== 0 &&
         (r >= originalR + colorRange ||
@@ -153,48 +147,55 @@ const P5Sketch = ({
           b >= 255 ||
           b <= 0))
     ) {
-      colorDirection.current *= -1; // Reverse the direction
+      colorDirection.current *= -1;
     }
   };
 
   const handleMouseMovement = (p5, mouseX, mouseY) => {
+    if (!p5) {
+      console.error("p5 is undefined in handleMouseClick");
+      return;
+    }
     if (customStrokeFunction) {
-      customStrokeFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY); // Call custom drawing function if provided
+      customStrokeFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY);
     } else {
-      // Use mode to determine which drawing function to use
-      if (mode === 0) {
-        drawRoots(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount,
-          maxBranchLengthLow,
-          maxBranchLengthHigh,
-          minRootLength,
-          branchIterations
-        );
-      } else if (mode === 1) {
-        drawRightAngleLines(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount,
-          maxBranchLengthLow,
-          maxBranchLengthHigh,
-          minRootLength,
-          branchIterations
-        );
-      } else if (mode === 2) {
-        drawSpiralBranches(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount,
-          maxBranchLengthLow,
-          maxBranchLengthHigh,
-          minRootLength,
-          branchIterations
-        );
+      try {
+        if (mode === 0) {
+          drawRoots(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount,
+            maxBranchLengthLow,
+            maxBranchLengthHigh,
+            minRootLength,
+            branchIterations
+          );
+        } else if (mode === 1) {
+          drawRightAngleLines(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount,
+            maxBranchLengthLow,
+            maxBranchLengthHigh,
+            minRootLength,
+            branchIterations
+          );
+        } else if (mode === 2) {
+          drawSpiralBranches(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount,
+            maxBranchLengthLow,
+            maxBranchLengthHigh,
+            minRootLength,
+            branchIterations
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred during mouse movement:", error);
       }
     }
     if (!(rgbInc[0] === 0 && rgbInc[1] === 0 && rgbInc[2] === 0)) {
@@ -203,45 +204,52 @@ const P5Sketch = ({
   };
 
   const handleMouseClick = (p5, mouseX, mouseY) => {
+    if (!p5) {
+      console.error("p5 is undefined in handleMouseClick");
+      return;
+    }
     if (customClickFunction) {
-      customClickFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY); // Call custom click function if provided
+      customClickFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY);
     } else if (customStrokeFunction) {
       return;
     } else {
-      // Use mode to determine which drawing function to use on mouse click
-      if (mode === 0) {
-        drawRoots(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount + 5,
-          maxBranchLengthLow + 30,
-          maxBranchLengthHigh + 30,
-          minRootLength + 30,
-          branchIterations + 2
-        );
-      } else if (mode === 1) {
-        drawRightAngleLines(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount + 5,
-          maxBranchLengthLow + 30,
-          maxBranchLengthHigh + 30,
-          minRootLength + 30,
-          branchIterations + 2
-        );
-      } else if (mode === 2) {
-        drawSpiralBranches(
-          p5,
-          mouseX,
-          mouseY,
-          rootCount + 5,
-          maxBranchLengthLow + 30,
-          maxBranchLengthHigh + 30,
-          minRootLength + 30,
-          branchIterations + 2
-        );
+      try {
+        if (mode === 0) {
+          drawRoots(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount + 5,
+            maxBranchLengthLow + 30,
+            maxBranchLengthHigh + 30,
+            minRootLength + 30,
+            branchIterations + 2
+          );
+        } else if (mode === 1) {
+          drawRightAngleLines(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount + 5,
+            maxBranchLengthLow + 30,
+            maxBranchLengthHigh + 30,
+            minRootLength + 30,
+            branchIterations + 2
+          );
+        } else if (mode === 2) {
+          drawSpiralBranches(
+            p5,
+            mouseX,
+            mouseY,
+            rootCount + 5,
+            maxBranchLengthLow + 30,
+            maxBranchLengthHigh + 30,
+            minRootLength + 30,
+            branchIterations + 2
+          );
+        }
+      } catch (error) {
+        console.error("An error occurred during mouse click:", error);
       }
     }
   };

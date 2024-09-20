@@ -97,6 +97,10 @@ You can pass these options into the component as shown below:
   }}
 />
 ```
+### Demonstration
+![BrancingCanvas 2](https://github.com/user-attachments/assets/ae582f3b-347f-4b8a-8823-922e437ddc77)
+
+
 
 ### Related Dependencies
 - **p5.js** - A library for creating interactive visuals with code.

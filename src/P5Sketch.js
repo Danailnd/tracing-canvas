@@ -18,9 +18,9 @@ const P5Sketch = ({
   containerRef,
   backgroundColor = "#ffffff",
   drawingColor = "#000000",
-  customDrawFunction = null,
-  customClickFunction = null,
   customStrokeFunction = null,
+  customClickFunction = null,
+  customDrawFunction = null,
   rgbInc = [0, 0, 0],
   colorRange = 0,
   mode = 0,
@@ -34,6 +34,16 @@ const P5Sketch = ({
   const strokeColorCurrent = useRef(0);
   const colorDirection = useRef(1);
   const drawingColorCoverted = useRef(0);
+
+  const wrapWithTryCatch = (fn) => {
+    return function (...args) {
+      try {
+        fn(...args);
+      } catch (error) {
+        console.error("An error occurred:", error);
+      }
+    };
+  };
 
   useEffect(() => {
     if (containerRef.current) {
@@ -74,7 +84,7 @@ const P5Sketch = ({
     return colorInput;
   };
 
-  const setup = (p5) => {
+  const setup = wrapWithTryCatch((p5) => {
     if (containerRef.current) {
       p5.createCanvas(
         containerRef.current.offsetWidth,
@@ -89,9 +99,9 @@ const P5Sketch = ({
       strokeColorCurrent.current = handleColorInput(p5, drawingColor);
       drawingColorCoverted.current = converted;
     }
-  };
+  });
 
-  const draw = (p5) => {
+  const draw = wrapWithTryCatch((p5) => {
     if (!p5) return;
     if (customDrawFunction) {
       customDrawFunction(p5, isMouseInsideContainer(p5, 20));
@@ -104,9 +114,9 @@ const P5Sketch = ({
         }
       }
     }
-  };
+  });
 
-  const changeColorStroke = (p5) => {
+  const changeColorStroke = wrapWithTryCatch((p5) => {
     let color = strokeColorCurrent.current;
     let direction = colorDirection.current;
 
@@ -149,13 +159,14 @@ const P5Sketch = ({
     ) {
       colorDirection.current *= -1;
     }
-  };
+  });
 
-  const handleMouseMovement = (p5, mouseX, mouseY) => {
+  const handleMouseMovement = wrapWithTryCatch((p5, mouseX, mouseY) => {
     if (!p5) {
-      console.error("p5 is undefined in handleMouseClick");
+      console.error("p5 is undefined in handleMouseMovement");
       return;
     }
+
     if (customStrokeFunction) {
       customStrokeFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY);
     } else {
@@ -198,81 +209,79 @@ const P5Sketch = ({
         console.error("An error occurred during mouse movement:", error);
       }
     }
+
     if (!(rgbInc[0] === 0 && rgbInc[1] === 0 && rgbInc[2] === 0)) {
       changeColorStroke(p5);
     }
-  };
+  });
 
-  const handleMouseClick = (p5, mouseX, mouseY) => {
+  const handleMouseClick = wrapWithTryCatch((p5, mouseX, mouseY) => {
     if (!p5) {
       console.error("p5 is undefined in handleMouseClick");
       return;
     }
+
     if (customClickFunction) {
       customClickFunction(p5, isMouseInsideContainer(p5, 20), mouseX, mouseY);
     } else if (customStrokeFunction) {
       return;
     } else {
-      try {
-        if (mode === 0) {
-          drawRoots(
-            p5,
-            mouseX,
-            mouseY,
-            rootCount + 5,
-            maxBranchLengthLow + 30,
-            maxBranchLengthHigh + 30,
-            minRootLength + 30,
-            branchIterations + 2
-          );
-        } else if (mode === 1) {
-          drawRightAngleLines(
-            p5,
-            mouseX,
-            mouseY,
-            rootCount + 5,
-            maxBranchLengthLow + 30,
-            maxBranchLengthHigh + 30,
-            minRootLength + 30,
-            branchIterations + 2
-          );
-        } else if (mode === 2) {
-          drawSpiralBranches(
-            p5,
-            mouseX,
-            mouseY,
-            rootCount + 5,
-            maxBranchLengthLow + 30,
-            maxBranchLengthHigh + 30,
-            minRootLength + 30,
-            branchIterations + 2
-          );
-        }
-      } catch (error) {
-        console.error("An error occurred during mouse click:", error);
+      if (mode === 0) {
+        drawRoots(
+          p5,
+          mouseX,
+          mouseY,
+          rootCount + 5,
+          maxBranchLengthLow + 30,
+          maxBranchLengthHigh + 30,
+          minRootLength + 30,
+          branchIterations + 2
+        );
+      } else if (mode === 1) {
+        drawRightAngleLines(
+          p5,
+          mouseX,
+          mouseY,
+          rootCount + 5,
+          maxBranchLengthLow + 30,
+          maxBranchLengthHigh + 30,
+          minRootLength + 30,
+          branchIterations + 2
+        );
+      } else if (mode === 2) {
+        drawSpiralBranches(
+          p5,
+          mouseX,
+          mouseY,
+          rootCount + 5,
+          maxBranchLengthLow + 30,
+          maxBranchLengthHigh + 30,
+          minRootLength + 30,
+          branchIterations + 2
+        );
       }
     }
-  };
+  });
 
-  const mouseMoved = (p5) => {
+  const mouseMoved = wrapWithTryCatch((p5) => {
     if (isMouseInsideContainer(p5, 20)) {
       handleMouseMovement(p5, p5.mouseX, p5.mouseY);
     }
-  };
+  });
 
-  const mouseDragged = (p5) => {
+  const mouseDragged = wrapWithTryCatch((p5) => {
     if (isMouseInsideContainer(p5, 20)) {
       handleMouseMovement(p5, p5.mouseX, p5.mouseY);
     }
-  };
+  });
 
-  const mouseClicked = (p5) => {
+  const mouseClicked = wrapWithTryCatch((p5) => {
     if (isMouseInsideContainer(p5, 20)) {
       handleMouseClick(p5, p5.mouseX, p5.mouseY);
     }
-  };
+  });
 
-  const windowResized = (p5) => {
+  const windowResized = wrapWithTryCatch((p5) => {
     if (containerRef.current) {
       p5.resizeCanvas(
         containerRef.current.offsetWidth,
@@ -284,7 +293,7 @@ const P5Sketch = ({
       });
     }
     p5.background(backgroundColor);
-  };
+  });
 
   return (
     <Sketch

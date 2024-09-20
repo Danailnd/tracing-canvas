@@ -6,6 +6,7 @@ const CanvasTrace = ({
   options = {},
   customDrawFunction = null,
   customClickFunction = null,
+  customStrokeFunction = null,
   children,
   ...props
 }) => {
@@ -25,6 +26,7 @@ const CanvasTrace = ({
           {...options}
           customDrawFunction={customDrawFunction}
           customClickFunction={customClickFunction}
+          customStrokeFunction={customStrokeFunction}
         />
       )}
       <div

@@ -8,7 +8,7 @@ import {
 
 const P5Sketch = ({
   customFrameRate = 2,
-  maxFade = 3,
+  incFade = 3,
   maxBranchLengthLow = 25,
   maxBranchLengthHigh = 50,
   minRootLength = 10,
@@ -108,9 +108,9 @@ const P5Sketch = ({
     } else {
       if (isMouseInsideContainer(p5, 20)) {
         if (invertedFade) {
-          p5.background(0, 0, 0, maxFade);
+          p5.background(0, 0, 0, incFade);
         } else {
-          p5.background(255, 255, 255, maxFade);
+          p5.background(255, 255, 255, incFade);
         }
       }
     }

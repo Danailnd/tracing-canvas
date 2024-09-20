@@ -98,3 +98,16 @@ You can pass these options into the component as shown below:
 />
 ```
 
+### Related Dependencies
+- **p5.js** - A library for creating interactive visuals with code.
+- **react-p5** - A React wrapper for p5.js.
+- **react** - Peer dependency required to run the module.
+- **react-dom** - Peer dependency required to run the module.
+
+### Peer Dependencies
+You need to ensure that the following peer dependencies are installed in your project:
+- `react >= 17.0.1`
+- `react-dom >= 17.0.1`
+
+### Author
+Danail Dimitrov

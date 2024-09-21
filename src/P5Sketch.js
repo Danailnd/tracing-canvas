@@ -25,6 +25,7 @@ const P5Sketch = ({
   colorRange = 0,
   mode = 0,
   invertedFade = false,
+  onLoad,
 }) => {
   const [containerDimensions, setContainerDimensions] = useState({
     width: 0,
@@ -98,6 +99,9 @@ const P5Sketch = ({
       p5.stroke(converted);
       strokeColorCurrent.current = handleColorInput(p5, drawingColor);
       drawingColorCoverted.current = converted;
+      if (onLoad) {
+        onLoad();
+      }
     }
   });
 

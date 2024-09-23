@@ -52,6 +52,15 @@ const P5Sketch = ({
         width: containerRef.current.offsetWidth,
         height: containerRef.current.offsetHeight,
       });
+
+      setTimeout(() => {
+        if (containerRef.current && window.p5Instance) {
+          window.p5Instance.resizeCanvas(
+            containerRef.current.offsetWidth,
+            containerRef.current.offsetHeight
+          );
+        }
+      }, 50);
     }
   }, [containerRef]);
 

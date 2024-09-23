@@ -31,6 +31,7 @@ const P5Sketch = ({
     width: 0,
     height: 0,
   });
+  const [isContainerReady, setIsContainerReady] = useState(false);
 
   const strokeColorCurrent = useRef(0);
   const colorDirection = useRef(1);
@@ -48,19 +49,11 @@ const P5Sketch = ({
 
   useEffect(() => {
     if (containerRef.current) {
+      setIsContainerReady(true);
       setContainerDimensions({
         width: containerRef.current.offsetWidth,
         height: containerRef.current.offsetHeight,
       });
-
-      setTimeout(() => {
-        if (containerRef.current && window.p5Instance) {
-          window.p5Instance.resizeCanvas(
-            containerRef.current.offsetWidth,
-            containerRef.current.offsetHeight
-          );
-        }
-      }, 50);
     }
   }, [containerRef]);
 
@@ -95,22 +88,21 @@ const P5Sketch = ({
   };
 
   const setup = wrapWithTryCatch((p5) => {
-    if (containerRef.current) {
-      p5.createCanvas(
-        containerRef.current.offsetWidth,
-        containerRef.current.offsetHeight
-      ).parent(containerRef.current);
-      const converted = handleColorInput(p5, drawingColor);
+    if (!isContainerReady || !containerRef.current) return;
+    p5.createCanvas(
+      containerRef.current.offsetWidth,
+      containerRef.current.offsetHeight
+    ).parent(containerRef.current);
+    const converted = handleColorInput(p5, drawingColor);
 
-      p5.background(backgroundColor);
-      p5.frameRate(customFrameRate);
-      p5.strokeWeight(branchStrokeWeight);
-      p5.stroke(converted);
-      strokeColorCurrent.current = handleColorInput(p5, drawingColor);
-      drawingColorCoverted.current = converted;
-      if (onLoad) {
-        onLoad();
-      }
+    p5.background(backgroundColor);
+    p5.frameRate(customFrameRate);
+    p5.strokeWeight(branchStrokeWeight);
+    p5.stroke(converted);
+    strokeColorCurrent.current = handleColorInput(p5, drawingColor);
+    drawingColorCoverted.current = converted;
+    if (onLoad) {
+      onLoad();
     }
   });
 
@@ -308,7 +300,7 @@ const P5Sketch = ({
     p5.background(backgroundColor);
   });
 
-  return (
+  return isContainerReady ? (
     <Sketch
       setup={setup}
       draw={draw}
@@ -317,7 +309,7 @@ const P5Sketch = ({
       mouseDragged={mouseDragged}
       mouseClicked={mouseClicked}
     />
-  );
+  ) : null;
 };
 
 export default P5Sketch;

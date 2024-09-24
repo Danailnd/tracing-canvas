@@ -3,6 +3,9 @@ A reusable React component that allows you to create interactive p5.js sketches.
 ### Summary
 The Tracing Canvas is a React component built on top of p5.js and react-p5. It provides an easy way to integrate custom sketching and drawing patterns into a React/Next.js project.
 
+### NPM link
+https://www.npmjs.com/package/tracing-canvas
+
 ### Features
 - **Dynamic Drawing Patterns:** The module includes prebuilt patterns such as roots, right-angle lines, and spiral branches drawn as the mouse moves.
 - **Customizable Behavior:** You can define custom click, draw, and drag (on mouse movement) functions

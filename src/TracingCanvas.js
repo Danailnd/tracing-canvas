@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import P5Sketch from "./P5Sketch";
 
 const LoadingSpinner = () => (
@@ -28,11 +28,16 @@ const CanvasTrace = ({
   customDrawFunction = null,
   customClickFunction = null,
   customStrokeFunction = null,
+  onLoadingChange = () => {},
   children,
   ...props
 }) => {
   const containerRef = useRef(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    onLoadingChange(!isLoaded);
+  }, [isLoaded, onLoadingChange]);
 
   const handleCanvasLoad = () => {
     setIsLoaded(true);
